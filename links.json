@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Hebrew Class",
+    "url": "https://israelshavit.github.io/hebrew-class/",
+    "group": "",
+    "note": ""
+  },
+  {
+    "name": "Stock Tracker",
+    "url": "https://stocks.shavit.com.au/login",
+    "group": "",
+    "note": ""
+  },
+  {
+    "name": "DCA Scorecard",
+    "url": "https://dca-scorecard-shavit.vercel.app/login",
+    "group": "",
+    "note": ""
+  },
+  {
+    "name": "Quantity+",
+    "url": "https://quantityplus.onrender.com/login",
+    "group": "",
+    "note": ""
+  }
+]

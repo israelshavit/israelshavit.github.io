@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Link Hub</title>
+<meta name="description" content="All my project links in one place.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b6e70'/%3E%3Cpath d='M13 19l6-6M11.5 15.5l-2 2a3.5 3.5 0 005 5l2-2M20.5 16.5l2-2a3.5 3.5 0 00-5-5l-2 2' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: one centered column; header, search + group chips, then links stacked by project. */
+:root {
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --fg: #16202a;
+  --muted: #5b6875;
+  --line: #dde3e9;
+  --accent: #0b6e70;
+  --accent-soft: #e2f1f0;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1519; --surface: #172026; --fg: #e6edf1; --muted: #93a2ad; --line: #26323a;
+    --accent: #4fc2bf; --accent-soft: #14302f; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px max(16px, env(safe-area-inset-right)) 64px max(16px, env(safe-area-inset-left)); display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--display); font-size: clamp(30px, 6vw, 42px); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.sub { color: var(--muted); margin: 0; }
+.tools { display: flex; flex-direction: column; gap: 12px; }
+input { font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; width: 100%; }
+input:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 13px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.chip .n { font-family: var(--mono); font-size: 11px; opacity: .7; margin-left: 4px; }
+section.group { display: flex; flex-direction: column; gap: 10px; }
+h2 { font-family: var(--display); font-size: 18px; margin: 0; display: flex; align-items: baseline; gap: 8px; }
+h2 .n { font-family: var(--mono); font-size: 12px; color: var(--muted); font-weight: 400; }
+ul.links { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+li.link { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-top: 1px solid var(--line); }
+li.link:first-child { border-top: 0; }
+.badge { flex: none; width: 36px; height: 36px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font: 600 16px var(--display); display: grid; place-items: center; text-transform: uppercase; }
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.main a.name { color: var(--fg); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.main a.name::after { content: ""; position: absolute; inset: 0; }
+li.link { position: relative; }
+.main a.name:hover { color: var(--accent); }
+.url { font-family: var(--mono); font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+.note { color: var(--muted); font-size: 14px; margin-top: 2px; overflow-wrap: anywhere; }
+.copy { position: relative; z-index: 1; flex: none; font: 500 13px var(--body); cursor: pointer; border-radius: 6px; background: transparent; border: 1px solid transparent; color: var(--muted); padding: 5px 8px; }
+.copy:hover { border-color: var(--line); color: var(--fg); }
+.empty { border: 1px dashed var(--line); border-radius: 12px; padding: 28px 20px; text-align: center; color: var(--muted); }
+.empty strong { display: block; color: var(--fg); font-family: var(--display); font-size: 17px; margin-bottom: 4px; }
+@media (prefers-reduced-motion: no-preference) { li.link { transition: background .15s; } }
+li.link:hover { background: var(--accent-soft); }
+</style>
+</head>
+<body>
+<main id="app" class="wrap">
+  <header>
+    <span class="eyebrow">Links</span>
+    <h1>Project Link Hub</h1>
+    <p class="sub">Loading links…</p>
+  </header>
+</main>
+<script>
+(function () {
+  var app = document.getElementById("app");
+  var links = [];
+  var ui = { query: "", group: "" };
+
+  function el(tag, attrs, kids) {
+    var n = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "text") n.textContent = attrs[k];
+      else if (k === "class") n.className = attrs[k];
+      else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    }
+    (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return n;
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : null; }
+  function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return u; } }
+  function groupOf(l) { return (l.group || "").trim() || "Projects"; }
+  function groups() {
+    var order = [], counts = {};
+    links.forEach(function (l) { var g = groupOf(l); if (!(g in counts)) { counts[g] = 0; order.push(g); } counts[g]++; });
+    return order.map(function (g) { return { name: g, count: counts[g] }; });
+  }
+
+  function linkRow(l) {
+    var href = safeUrl(l.url);
+    var copy = el("button", { type: "button", class: "copy", "aria-label": "Copy address of " + l.name, onclick: function (e) {
+      var b = e.currentTarget;
+      var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1400); };
+      try { navigator.clipboard.writeText(l.url).then(done, function () {}); } catch (err) {}
+    } }, ["Copy"]);
+    return el("li", { class: "link" }, [
+      el("span", { class: "badge", "aria-hidden": "true", text: (String(l.name || "?").trim()[0] || "?") }),
+      el("div", { class: "main" }, [
+        href ? el("a", { class: "name", href: href, target: "_blank", rel: "noopener", text: l.name }) : el("span", { class: "name", text: l.name }),
+        el("span", { class: "url", text: host(l.url) }),
+        l.note ? el("span", { class: "note", text: l.note }) : null
+      ]),
+      copy
+    ]);
+  }
+
+  function render() {
+    var active = document.activeElement && document.activeElement.id;
+    var caret = active === "q" ? document.activeElement.selectionStart : null;
+    app.textContent = "";
+    var total = links.length;
+    app.appendChild(el("header", null, [
+      el("span", { class: "eyebrow", text: total + (total === 1 ? " link" : " links") }),
+      el("h1", { text: "Project Link Hub" }),
+      el("p", { class: "sub", text: "Everything I'm building, in one place." })
+    ]));
+
+    if (!total) {
+      app.appendChild(el("div", { class: "empty" }, [el("strong", { text: "No links yet" }), "Links will appear here once they are added."]));
+      return;
+    }
+    var gs = groups();
+    var q = el("input", { id: "q", type: "search", placeholder: "Search links", "aria-label": "Search links", oninput: function (e) { ui.query = e.target.value; render(); } });
+    q.value = ui.query;
+    var tools = [q];
+    if (gs.length > 1) {
+      tools.push(el("div", { class: "chips", role: "group", "aria-label": "Filter by project" },
+        [{ name: "", label: "All", count: total }].concat(gs.map(function (g) { return { name: g.name, label: g.name, count: g.count }; })).map(function (g) {
+          return el("button", { type: "button", class: "chip", "aria-pressed": String(ui.group === g.name), onclick: function () { ui.group = g.name; render(); } }, [g.label, el("span", { class: "n", text: String(g.count) })]);
+        })));
+    }
+    app.appendChild(el("div", { class: "tools" }, tools));
+
+    var needle = ui.query.trim().toLowerCase();
+    var shown = 0;
+    gs.forEach(function (g) {
+      if (ui.group && ui.group !== g.name) return;
+      var items = links.filter(function (l) {
+        if (groupOf(l) !== g.name) return false;
+        return !needle || [l.name, l.url, l.note, l.group].join(" ").toLowerCase().indexOf(needle) !== -1;
+      });
+      if (!items.length) return;
+      shown += items.length;
+      app.appendChild(el("section", { class: "group" }, [
+        el("h2", null, [g.name, el("span", { class: "n", text: String(items.length) })]),
+        el("ul", { class: "links" }, items.map(linkRow))
+      ]));
+    });
+    if (!shown) app.appendChild(el("div", { class: "empty" }, [el("strong", { text: "No matches" }), "Try a different word or pick All."]));
+
+    if (active) {
+      var again = document.getElementById(active);
+      if (again) { again.focus(); if (caret != null) try { again.setSelectionRange(caret, caret); } catch (e) {} }
+    }
+  }
+
+  fetch("links.json", { cache: "no-cache" })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (data) { links = Array.isArray(data) ? data.filter(function (l) { return l && l.name && l.url; }) : []; render(); })
+    .catch(function () {
+      app.textContent = "";
+      app.appendChild(el("div", { class: "empty" }, [el("strong", { text: "Links could not load" }), "Refresh the page to try again."]));
+    });
+})();
+</script>
+</body>
+</html>
